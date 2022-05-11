@@ -15,12 +15,22 @@ The user should be able to see the list of tasks, add new ones, delete existing 
     <!-- EXERCISE 1:
     Specify the title, the charset (UTF-8) and the viewport of the page.
     -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Task List</title>
     <style>
       /* EXERCISE 2:  
        Create a CSS class for the task list with a different background color
        Create a CSS class for the task list item with a border, a bold text and a bigger font size
        Style every button of the page to be bigger
+       
     */
+    .listBackground{
+        background-color: blanchedalmond;
+        border: 2px;
+        font-weight: bold;
+        font-size: larger;
+    }
     </style>
   </head>
   <body>
@@ -32,18 +42,18 @@ The user should be able to see the list of tasks, add new ones, delete existing 
       then press "Add new task"</span
     ><br /><br />
 
-    <input type="text" id="newTask" />
+    <input type="text" id="newTask" placeholder="Enter new task..."/>
     <input type="button" value="Add new Task" onclick="addNewTask()" />
 
     <!-- EXERCISE 3
         Create a button "Remove Last Task" to trigger the method "removeLast"
         -->
-
+        <button onclick="removeLast()">Remove Last Task</button>
     <!-- EXERCISE 4
         Create a button "Remove First Task" to trigger the method "removeFirst"
         -->
-
-    <ul id="myTaskList"></ul>
+        <button onclick="removeFirst()">Remove First Task</button>
+    <ul id="myTaskList" class="listBackground"></ul>
 
     <hr />
 
@@ -66,23 +76,63 @@ The user should be able to see the list of tasks, add new ones, delete existing 
                 - Use the document.createElement to create the new List Item
                 - Append the LI child to the UL
             */
+           function addNewTask(){
+               let taskInput = document.getElementById('newTask')
+               let taskToAdd = taskInput.value
+               if (taskToAdd === ''){
+                   alert("Task cannot be empty")
+               }
+               else{
+                   taskInput.value = ""
+               newTaskNode = document.createElement('li')
+               newTaskNode.innerText = taskToAdd
+               document.getElementById('myTaskList').appendChild(newTaskNode)
+               }
+
+           }
 
       /* EXERCISE 6: 
                 Create a method "removeLast" which removes the last item from the task list
             */
+           function removeLast(){
+               taskList = document.getElementById('myTaskList')
+               taskList.lastElementChild.remove();
+           }
 
       /* EXERCISE 7: 
                 Create a method "removeFirst" which removes the first item from the task list
             */
+            function removeFirst(){
+               taskList = document.getElementById('myTaskList')
+               taskList.firstElementChild.remove();
+           }
 
       /* EXERCISE 8: 
                Create a method "getTasksAsArray" which returns, and prints to the console an array containing the tasks as strings
             */
+           function getTasksAsArray(){
+               taskArray = document.getElementsByTagName('li')
+               for(let i=0; i<taskArray.length; i++){
+                   console.log(taskArray[i].innerText)
+               }
+
+           }
 
       /* EXERCISE 9:
                Create a method "changeTaskBackgroundColor" which takes the color from the color picker with an 
                onchange event listener ad applies it as background to every list item
             */
+           function changeTaskBackgroundColor(){
+           let newBgColor = document.getElementById('colorPicker').value
+           let listItems = document.querySelectorAll('#myTaskList li')
+           document.querySelector('#myTaskList').style.backgroundColor = newBgColor
+            for(let i=0; i<listItems.length; i++){
+                listItems[i].style.backgroundColor = newBgColor
+            }
+           }
+           let bgColorEvent = document.getElementById('colorPicker')
+           bgColorEvent.addEventListener('change', changeTaskBackgroundColor)
+
 
       /* EXTRA */
 
